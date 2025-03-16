@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import socket from "../pages/socket";
-import styles from "./Chat.module.css";
+import styles from "./chat.module.css";
 
 export default function Chat() {
   const [message, setMessage] = useState<string>("");
