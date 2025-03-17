@@ -9,7 +9,9 @@ export const useSocket = () => {
   useEffect(() => {
     const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL, {
       secure: true,
-      rejectUnauthorized: false // For self-signed certificates
+      rejectUnauthorized: false, // For self-signed certificates
+      transports: ['websocket'], // Try forcing websocket transport
+      reconnection: true
     });
     
     newSocket.on("connect", () => {
