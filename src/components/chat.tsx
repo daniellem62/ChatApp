@@ -1,78 +1,37 @@
-import { useEffect, useState } from "react";
-import socket from "../pages/socket";
-import styles from "./chat.module.css";
+import { useState } from "react";
+import { useSocket } from "../hooks/useSocket";
 
-export default function Chat() {
-  const [message, setMessage] = useState<string>("");
-  const [messages, setMessages] = useState<string[]>([]);
-  const [connected, setConnected] = useState(socket.connected);
+const Chat = () => {
+  const { messages, sendMessage } = useSocket();
+  const [input, setInput] = useState("");
 
-  useEffect(() => {
-    // Debug connection status
-    console.log("Initial connection status:", socket.connected);
-
-    // Connection events
-    socket.on("connect", () => {
-      console.log("Socket connected!");
-      setConnected(true);
-    });
-
-    socket.on("connect_error", (error) => {
-      console.error("Connection error:", error);
-      setConnected(false);
-    });
-
-    socket.on("disconnect", () => {
-      console.log("Socket disconnected!");
-      setConnected(false);
-    });
-
-    // Listen for new messages from the server
-    socket.on("chat message", (msg: string) => {
-      console.log("Received message:", msg);
-      setMessages((prevMessages) => [...prevMessages, msg]);
-    });
-
-    // Clean up the socket connection
-    return () => {
-      socket.off("connect");
-      socket.off("connect_error");
-      socket.off("disconnect");
-      socket.off("chat message");
-    };
-  }, []);
-
-  const sendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (message) {
-      console.log("Attempting to send message:", message);
-      console.log("Socket connected?", socket.connected);
-      socket.emit("chat message", message);
-      setMessage("");
+  const handleSend = () => {
+    if (input.trim()) {
+      sendMessage(input);
+      setInput("");
     }
   };
 
   return (
-    <div className={styles.container}>
-      <h1>Chat App {connected ? "(Connected)" : "(Disconnected)"}</h1>
-      <div className={styles.messages}>
+    <div style={{ maxWidth: 400, margin: "20px auto", textAlign: "center" }}>
+      <h2>WebSocket Chat</h2>
+      <div style={{ border: "1px solid #ddd", padding: 10, minHeight: 200 }}>
         {messages.map((msg, index) => (
           <p key={index}>{msg}</p>
         ))}
       </div>
-
-      <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          value={message}
-          className={styles.input}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Type your message here"
-        />
-        <button className={styles.button} type="submit">
-          Send
-        </button>
-      </form>
+      <input
+        type="text"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        placeholder="Type a message..."
+        style={{ padding: 5, width: "80%" }}
+      />
+      <button onClick={handleSend} style={{ marginLeft: 10, padding: 5 }}>
+        Send
+      </button>
     </div>
   );
-}
+};
+
+export default Chat;
