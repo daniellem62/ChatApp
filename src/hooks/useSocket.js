@@ -7,7 +7,7 @@ export const useSocket = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL, { transports: ["websocket", "polling"] });
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL);
     
     newSocket.on("connect", () => {
       console.log("Connected to WebSocket Server");
