@@ -1,8 +1,8 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   reactStrictMode: true,
+  swcMinify: true,
+  trailingSlash: false, // Ensure this is false for Vercel
 };
 
-export default nextConfig;
+module.exports = nextConfig;
