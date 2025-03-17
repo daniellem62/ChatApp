@@ -7,7 +7,10 @@ export const useSocket = () => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL);
+    const newSocket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL, {
+      secure: true,
+      rejectUnauthorized: false // For self-signed certificates
+    });
     
     newSocket.on("connect", () => {
       console.log("Connected to WebSocket Server");
