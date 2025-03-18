@@ -1,6 +1,5 @@
 .container {
     text-align: center;
-    max-width: 600px;
     margin: 0 auto;
   }
   
@@ -22,3 +21,11 @@
     padding: 10px 20px;
   }
   
+
+  .chat {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 75%;
+  }

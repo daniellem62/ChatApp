@@ -3,7 +3,6 @@ import { io, Socket } from "socket.io-client";
 
 // Define message interface
 interface ChatMessage {
-  username: string;
   message: string;
 }
 
@@ -37,8 +36,10 @@ export const useSocket = (username?: string): UseSocketReturn => {
 
     // Listening for incoming messages
     newSocket.on("chat message", (msg: ChatMessage) => {
+      console.log("Received message from server:", msg);
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
+    
 
     // Clean up on unmount
     return () => {
@@ -49,6 +50,7 @@ export const useSocket = (username?: string): UseSocketReturn => {
   // Function to send a message to the server
   const sendMessage = (msg: ChatMessage): void => {
     if (socket) {
+      console.log("Sending message:", msg);
       socket.emit("chat message", msg);
     } else {
       console.error("Cannot send message: Socket not connected");
