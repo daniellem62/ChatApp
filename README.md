@@ -8,7 +8,7 @@
 - Users can set a username upon entering the chat
 - Messages are displayed with the sender's username
 - Simple, clean chat interface with basic functionality
-- 
+
   ![Image of chat app](./public/Screenshot 2025-03-18 125806.png)
 
 ## Technologies Used
