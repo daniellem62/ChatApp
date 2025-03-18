@@ -1,6 +1,11 @@
 import { useState, useEffect } from "react";
 import { useSocket } from "../hooks/useSocket";
 
+interface ChatMessage {
+  username: string;
+  message: string;
+}
+
 
 
 
@@ -24,8 +29,9 @@ const Chat = () => {
 
   const handleSend = () => {
     if (input.trim()) {
-      sendMessage({ message: input }); // Make sure message is a string
-      setInput("");
+      const msg: ChatMessage = { username, message: input }; // Make sure the username is included
+      sendMessage(msg); // Send the full message object
+      setInput(""); // Clear the input after sending
     }
   };
 
@@ -38,7 +44,7 @@ const Chat = () => {
           messages.map((msg, index) => (
             <p key={index}>
             {/* Ensure you're accessing the properties correctly */}
-            <strong>{username}</strong>: {JSON.stringify(msg.message)}
+            <strong>{msg.username}</strong>: {msg.message}
           </p>
           ))
         ) : (

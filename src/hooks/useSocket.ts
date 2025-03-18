@@ -3,6 +3,7 @@ import { io, Socket } from "socket.io-client";
 
 // Define message interface
 interface ChatMessage {
+  username: string;
   message: string;
 }
 
