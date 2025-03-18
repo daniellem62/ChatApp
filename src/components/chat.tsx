@@ -14,7 +14,7 @@ const Chat = () => {
 
   return (
     <div style={{ maxWidth: 400, margin: "20px auto", textAlign: "center" }}>
-      <h2>WebSocket Chat</h2>
+      <h2>Chat Hive</h2>
       <div style={{ border: "1px solid #ddd", padding: 10, minHeight: 200 }}>
         {messages.map((msg, index) => (
           <p key={index}>{msg}</p>
