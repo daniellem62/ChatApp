@@ -59,6 +59,7 @@ Future plans include:
 - Adding message persistence (storing chat history).
 - Enhancing the UI/UX.
 - Improving server-side architecture for scalability and security.
+- Adding authentication for users.
 
 ## License
 
