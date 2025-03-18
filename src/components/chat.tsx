@@ -1,9 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSocket } from "../hooks/useSocket";
 
 const Chat = () => {
-  const { messages, sendMessage } = useSocket();
   const [input, setInput] = useState("");
+  const [username, setUsername] = useState("");
+  const { messages, sendMessage } = useSocket(username);
+
+  // Prompt for username only once on mount
+  useEffect(() => {
+    const user = prompt("Enter your username:");
+    if (user) {
+      setUsername(user);
+    }
+  }, []);
 
   const handleSend = () => {
     if (input.trim()) {
@@ -17,7 +26,10 @@ const Chat = () => {
       <h2>Chat Hive</h2>
       <div style={{ border: "1px solid #ddd", padding: 10, minHeight: 200 }}>
         {messages.map((msg, index) => (
-          <p key={index}>{msg}</p>
+          <p key={index}>
+            {/* Ensure you're accessing the properties correctly */}
+            <strong>{msg.username}</strong>: {msg.message}
+          </p>
         ))}
       </div>
       <input
