@@ -9,7 +9,7 @@
 - Messages are displayed with the sender's username
 - Simple, clean chat interface with basic functionality
 
-  ![Image of chat app](./public/Screenshot-2025-03-18-125806.png)
+  ![Image of chat app](./public/Screenshot.png)
 
 ## Technologies Used
 
