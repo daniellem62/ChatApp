@@ -50,7 +50,7 @@ const Chat = () => {
         {/* Users column - Left side */}
         <div className="w-1/4 bg-[rgba(17,17,17,0.2)] backdrop-blur-md text-white p-4 rounded-lg">
 
-          <h3 className="text-lg font-bold">Online</h3>
+          <h3 className="text-lg font-bold rounded-sm border-gray-800 border-1 shadow-inner text-center p-1">Online</h3>
           <ul className="mt-2 space-y-2">
             {users && users.length > 0 ? (
               users.map((user, index) => (
@@ -75,7 +75,7 @@ const Chat = () => {
                 </p>
               ))
             ) : (
-              <p>No messages yet</p>
+              <p>Welcome to Chat Hive!</p>
             )}
             <div ref={messagesEndRef} />
           </div>
@@ -92,7 +92,7 @@ const Chat = () => {
             />
             <button
               onClick={handleSend}
-              className="ml-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+              className="ml-2 px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg"
             >
               Send
             </button>
