@@ -11,11 +11,13 @@ interface ChatMessage {
 interface UseSocketReturn {
   messages: ChatMessage[];
   sendMessage: (msg: ChatMessage) => void;
+  users: string[];
 }
 
 export const useSocket = (username?: string): UseSocketReturn => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [users, setUsers] = useState<string[]>([]);
 
   useEffect(() => {
     const newSocket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || '', {
@@ -33,6 +35,10 @@ export const useSocket = (username?: string): UseSocketReturn => {
       if (username) {
         newSocket.emit("set username", username);
       }
+    });
+
+    newSocket.on("user list", (userList: string[]) => {
+      setUsers(userList);
     });
 
     // Listening for incoming messages
@@ -58,5 +64,5 @@ export const useSocket = (username?: string): UseSocketReturn => {
     }
   };
 
-  return { messages, sendMessage };
+  return { messages, sendMessage, users };
 };

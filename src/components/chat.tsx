@@ -12,7 +12,7 @@ interface ChatMessage {
 const Chat = () => {
   const [input, setInput] = useState("");
   const [username, setUsername] = useState("");
-  const { messages, sendMessage } = useSocket(username);
+  const { messages, sendMessage, users } = useSocket(username);
 
   
 
@@ -45,6 +45,16 @@ const Chat = () => {
   return (
     <div className="p-4 text-white rounded-lg w-300 h-200 mx-auto mt-4 text-center space-y-4 bg-gradient-to-br from-blue-800 to-gray-800">
       <h2 className="text-gray-200 text-4xl">Chat Hive</h2>
+      <div className="w-1/4 bg-gray-900 text-white p-4 rounded-l-lg">
+        <h3 className="text-lg font-bold">Online</h3>
+        <ul className="mt-2 space-y-2">
+          {users.map((users, index) => (
+            <li key={index} className="text-sm bg-gray-700 p-2 rounded-md">
+              {users}
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="flex flex-col overflow-y-auto h-[80%] border-gray-800 border-4 p-4 rounded-lg shadow-2xl bg-gray-100 shadow-inner text-left text-black">
         {/* Make sure to check for valid message data */}
         {messages && messages.length > 0 ? (
