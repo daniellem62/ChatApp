@@ -54,7 +54,7 @@ const Chat = () => {
           <ul className="mt-2 space-y-2">
             {users && users.length > 0 ? (
               users.map((user, index) => (
-                <li key={index} className="text-sm bg-gray-700 p-2 rounded-md">
+                <li key={index} className="text-sm p-2 rounded-md">
                   {user}
                 </li>
               ))
