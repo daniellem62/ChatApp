@@ -1,15 +1,16 @@
-# Chat Hive (MVP 1)
+# Chat Hive (MVP 2)
 
 **Chat Hive** is a real-time messaging application built with React, Socket.IO, and hosted on AWS EC2. This app is a work-in-progress, designed to practice and showcase skills in WebSockets, real-time communication, and cloud hosting (AWS). The project is currently in its Minimum Viable Product (MVP) stage, with plans for future enhancements.
 
-## Features (MVP 1)
+## Features (MVP 2)
 
 - Real-time messaging using WebSockets (Socket.IO)
 - Users can set a username upon entering the chat
 - Messages are displayed with the sender's username
 - Simple, clean chat interface with basic functionality
+- Online users displayed next to chat
 
-  ![Image of chat app](./public/Screenshot.png)
+  ![Image of chat app](./public/Screenshot1.png)
 
 ## Technologies Used
 
