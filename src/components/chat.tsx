@@ -16,6 +16,8 @@ const Chat = () => {
     const user = prompt("Enter your username:");
     if (user) {
       setUsername(user);
+    } else {
+      setUsername("Anonymous");
     }
   }, []);
 
