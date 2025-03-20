@@ -41,7 +41,7 @@ The backend for this application is hosted on an AWS EC2 instance, which handles
 
 ### Access the Deployed App:
 
-
+https://chat-2uvg9144s-daniellem62s-projects.vercel.app/
 
 ## Project Structure
 
