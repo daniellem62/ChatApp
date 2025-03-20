@@ -14,6 +14,8 @@ const Chat = () => {
   const [username, setUsername] = useState("");
   const { messages, sendMessage } = useSocket(username);
 
+  
+
 
   // Prompt for username only once on mount
   useEffect(() => {
@@ -36,9 +38,9 @@ const Chat = () => {
   };
 
   return (
-    <div className="bg-blue-500 p-4 text-white rounded-lg w-96 mx-auto mt-4 box-shadow text-center space-y-4">
+    <div className="bg-blue-500 p-4 text-white rounded-lg w-200 h-200 mx-auto mt-4 box-shadow text-left space-y-4">
       <h2 className="text-gray-900 text-xl">Chat Hive</h2>
-      <div style={{ border: "1px solid #ddd", padding: 10, minHeight: 200 }}>
+      <div className="flex flex-col overflow-y-auto h-96">
         {/* Make sure to check for valid message data */}
         {messages && messages.length > 0 ? (
           messages.map((msg, index) => (
@@ -51,17 +53,20 @@ const Chat = () => {
           <p>No messages yet</p>
         )}
       </div>
+      <div className="flex items-bottom">
       <input
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder="Type a message..."
         style={{ padding: 5, width: "80%" }}
-        onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+        className="border border-gray-300 rounded-lg p-2"
       />
       <button onClick={handleSend} style={{ marginLeft: 10, padding: 5 }}>
         Send
       </button>
+      </div>
     </div>
   );
 };
