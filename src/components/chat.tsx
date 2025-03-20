@@ -48,7 +48,7 @@ const Chat = () => {
       {/* Main content container with flex layout */}
       <div className="flex w-full mt-16 space-x-4">
         {/* Users column - Left side */}
-        <div className="w-1/4 bg-[rgba(17,17,17,0.4)] text-white p-4 rounded-lg">
+        <div className="w-1/4 bg-[rgba(17,17,17,0.2)] backdrop-blur-md text-white p-4 rounded-lg">
 
           <h3 className="text-lg font-bold">Online</h3>
           <ul className="mt-2 space-y-2">
@@ -67,7 +67,7 @@ const Chat = () => {
         {/* Messages and input column - Right side */}
         <div className="flex flex-col w-3/4 space-y-4">
           {/* Messages container */}
-          <div className="flex flex-col overflow-y-auto h-[60vh] border-gray-800 border-4 p-4 rounded-lg shadow-2xl bg-[rgba(17,17,17,0.4)]  shadow-inner text-left text-white">
+          <div className="flex flex-col overflow-y-auto h-[60vh] border-gray-800 p-4 rounded-lg bg-[rgba(17,17,17,0.2)] text-left text-white">
             {messages && messages.length > 0 ? (
               messages.map((msg, index) => (
                 <p key={index} className="py-1">
