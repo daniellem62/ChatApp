@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSocket } from "../hooks/useSocket";
 
 interface ChatMessage {
@@ -24,6 +24,11 @@ const Chat = () => {
       setUsername(user);
     }
   }, []);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   useEffect(() => {
     console.log("Messages in state:", messages);
@@ -38,9 +43,9 @@ const Chat = () => {
   };
 
   return (
-    <div className="bg-blue-500 p-4 text-white rounded-lg w-200 h-200 mx-auto mt-4 box-shadow text-left space-y-4">
-      <h2 className="text-gray-900 text-xl">Chat Hive</h2>
-      <div className="flex flex-col overflow-y-auto h-96">
+    <div className="p-4 text-white rounded-lg w-300 h-200 mx-auto mt-4 text-center space-y-4 bg-gradient-to-br from-blue-800 to-gray-800">
+      <h2 className="text-gray-200 text-4xl">Chat Hive</h2>
+      <div className="flex flex-col overflow-y-auto h-[80%] border-gray-800 border-4 p-4 rounded-lg shadow-2xl bg-gray-100 shadow-inner text-left text-black">
         {/* Make sure to check for valid message data */}
         {messages && messages.length > 0 ? (
           messages.map((msg, index) => (
@@ -52,6 +57,7 @@ const Chat = () => {
         ) : (
           <p>No messages yet</p>
         )}
+           <div ref={messagesEndRef} />
       </div>
       <div className="flex items-bottom">
       <input
