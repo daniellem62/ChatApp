@@ -6,16 +6,10 @@ interface ChatMessage {
   message: string;
 }
 
-
-
-
 const Chat = () => {
   const [input, setInput] = useState("");
   const [username, setUsername] = useState("");
   const { messages, sendMessage, users } = useSocket(username);
-
-  
-
 
   // Prompt for username only once on mount
   useEffect(() => {
@@ -24,6 +18,7 @@ const Chat = () => {
       setUsername(user);
     }
   }, []);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,52 +31,70 @@ const Chat = () => {
 
   const handleSend = () => {
     if (input.trim()) {
-      const msg: ChatMessage = { username, message: input }; // Make sure the username is included
-      sendMessage(msg); // Send the full message object
-      setInput(""); // Clear the input after sending
+      const msg: ChatMessage = { username, message: input };
+      sendMessage(msg);
+      setInput("");
     }
   };
 
   return (
-    <div className="p-4 text-white rounded-lg w-300 h-200 mx-auto mt-4 text-center space-y-4 bg-gradient-to-br from-blue-800 to-gray-800">
-      <h2 className="text-gray-200 text-4xl">Chat Hive</h2>
-      <div className="w-1/4 bg-gray-900 text-white p-4 rounded-l-lg">
-        <h3 className="text-lg font-bold">Online</h3>
-        <ul className="mt-2 space-y-2">
-          {users.map((users, index) => (
-            <li key={index} className="text-sm bg-gray-700 p-2 rounded-md">
-              {users}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="flex flex-col overflow-y-auto h-[80%] border-gray-800 border-4 p-4 rounded-lg shadow-2xl bg-gray-100 shadow-inner text-left text-black">
-        {/* Make sure to check for valid message data */}
-        {messages && messages.length > 0 ? (
-          messages.map((msg, index) => (
-            <p key={index}>
-            {/* Ensure you're accessing the properties correctly */}
-            <strong>{msg.username}</strong>: {msg.message}
-          </p>
-          ))
-        ) : (
-          <p>No messages yet</p>
-        )}
-           <div ref={messagesEndRef} />
-      </div>
-      <div className="flex items-bottom">
-      <input
-        type="text"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="Type a message..."
-        style={{ padding: 5, width: "80%" }}
-        onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-        className="border border-gray-300 rounded-lg p-2"
-      />
-      <button onClick={handleSend} style={{ marginLeft: 10, padding: 5 }}>
-        Send
-      </button>
+    <div className="flex p-4 text-white rounded-lg mx-auto mt-4 space-y-4 bg-gradient-to-br from-blue-800 to-gray-800">
+      <h2 className="text-gray-200 text-4xl absolute top-0 left-0 right-0 text-center py-4 m-5">
+        Chat Hive
+      </h2>
+
+      {/* Main content container with flex layout */}
+      <div className="flex w-full mt-16 space-x-4">
+        {/* Users column - Left side */}
+        <div className="w-1/4 bg-gray-900 text-white p-4 rounded-lg">
+          <h3 className="text-lg font-bold">Online</h3>
+          <ul className="mt-2 space-y-2">
+            {users && users.length > 0 ? (
+              users.map((user, index) => (
+                <li key={index} className="text-sm bg-gray-700 p-2 rounded-md">
+                  {user}
+                </li>
+              ))
+            ) : (
+              <li className="text-sm">No users online</li>
+            )}
+          </ul>
+        </div>
+
+        {/* Messages and input column - Right side */}
+        <div className="flex flex-col w-3/4 space-y-4">
+          {/* Messages container */}
+          <div className="flex flex-col overflow-y-auto h-[60vh] border-gray-800 border-4 p-4 rounded-lg shadow-2xl bg-gray-100 shadow-inner text-left text-black">
+            {messages && messages.length > 0 ? (
+              messages.map((msg, index) => (
+                <p key={index} className="py-1">
+                  <strong>{msg.username}</strong>: {msg.message}
+                </p>
+              ))
+            ) : (
+              <p>No messages yet</p>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {/* Input and button */}
+          <div className="flex">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type a message..."
+              className="border border-gray-300 rounded-lg p-2 flex-grow"
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            />
+            <button
+              onClick={handleSend}
+              className="ml-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+            >
+              Send
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
