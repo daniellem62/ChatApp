@@ -48,12 +48,13 @@ const Chat = () => {
       {/* Main content container with flex layout */}
       <div className="flex w-full mt-16 space-x-4">
         {/* Users column - Left side */}
-        <div className="w-1/4 bg-gray-900 text-white p-4 rounded-lg">
-          <h3 className="text-lg font-bold">Online</h3>
+        <div className="w-1/4 bg-[rgba(17,17,17,0.2)] backdrop-blur-md text-white p-4 rounded-lg">
+
+          <h3 className="text-lg font-bold rounded-sm border-gray-800 border-1 shadow-inner text-center p-1">Online</h3>
           <ul className="mt-2 space-y-2">
             {users && users.length > 0 ? (
               users.map((user, index) => (
-                <li key={index} className="text-sm bg-gray-700 p-2 rounded-md">
+                <li key={index} className="text-sm rounded-md">
                   {user}
                 </li>
               ))
@@ -66,7 +67,7 @@ const Chat = () => {
         {/* Messages and input column - Right side */}
         <div className="flex flex-col w-3/4 space-y-4">
           {/* Messages container */}
-          <div className="flex flex-col overflow-y-auto h-[60vh] border-gray-800 border-4 p-4 rounded-lg shadow-2xl bg-gray-100 shadow-inner text-left text-black">
+          <div className="flex flex-col overflow-y-auto h-[60vh] border-gray-800 p-4 rounded-lg bg-[rgba(17,17,17,0.2)] text-left text-white">
             {messages && messages.length > 0 ? (
               messages.map((msg, index) => (
                 <p key={index} className="py-1">
@@ -74,7 +75,7 @@ const Chat = () => {
                 </p>
               ))
             ) : (
-              <p>No messages yet</p>
+              <p>Welcome to Chat Hive!</p>
             )}
             <div ref={messagesEndRef} />
           </div>
@@ -91,7 +92,7 @@ const Chat = () => {
             />
             <button
               onClick={handleSend}
-              className="ml-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+              className="ml-2 px-4 py-2 bg-green-800 hover:bg-green-700 text-white rounded-lg"
             >
               Send
             </button>
