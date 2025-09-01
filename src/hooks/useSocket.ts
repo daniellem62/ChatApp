@@ -12,12 +12,14 @@ interface UseSocketReturn {
   messages: ChatMessage[];
   sendMessage: (msg: ChatMessage) => void;
   users: string[];
+  broadcast: string;
 }
 
 export const useSocket = (username?: string): UseSocketReturn => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [users, setUsers] = useState<string[]>([]);
+  const [broadcast, setBroadcast] = useState<string>("");
 
   useEffect(() => {
     const newSocket: Socket = io(
@@ -40,22 +42,12 @@ export const useSocket = (username?: string): UseSocketReturn => {
       }
     });
 
-    newSocket.on("user joined", () => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { username: username || "Anonymous", message: "has joined the chat" },
-      ]);
+    newSocket.on("user joined", (joinedUser: string) => {
+      setBroadcast(`${joinedUser} has joined the chat`);
     });
 
-    newSocket.on("user left", (username: string) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          username: username || "Anonymous",
-          message: "has left the chat",
-          system: true,
-        },
-      ]);
+    newSocket.on("user left", (leftUser: string) => {
+      setBroadcast(`${leftUser} has left the chat`);
     });
 
     newSocket.on("user list", (userList: string[]) => {
@@ -84,5 +76,5 @@ export const useSocket = (username?: string): UseSocketReturn => {
     }
   };
 
-  return { messages, sendMessage, users };
+  return { messages, sendMessage, users, broadcast };
 };
