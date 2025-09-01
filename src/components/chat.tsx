@@ -2,15 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { useSocket } from "../hooks/useSocket";
 
 interface ChatMessage {
-  username: string;
+  username?: string;
   message: string;
 }
 
 const Chat = () => {
   const [input, setInput] = useState("");
   const [username, setUsername] = useState("");
-  // Add broadcast to destructure from useSocket
-  const { messages, sendMessage, users, broadcast } = useSocket(username);
+  const { messages, sendMessage, users } = useSocket(username);
 
   // Prompt for username only once on mount
   useEffect(() => {
@@ -26,7 +25,7 @@ const Chat = () => {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, broadcast]);
+  }, [messages]);
 
   useEffect(() => {
     console.log("Messages in state:", messages);
@@ -50,9 +49,8 @@ const Chat = () => {
       <div className="flex w-full mt-16 space-x-4">
         {/* Users column - Left side */}
         <div className="w-1/4 bg-[rgba(17,17,17,0.2)] backdrop-blur-md text-white p-4 rounded-lg">
-          <h3 className="text-lg font-bold rounded-sm border-gray-800 border-1 shadow-inner text-center p-1">
-            Online
-          </h3>
+
+          <h3 className="text-lg font-bold rounded-sm border-gray-800 border-1 shadow-inner text-center p-1">Online</h3>
           <ul className="mt-2 space-y-2">
             {users && users.length > 0 ? (
               users.map((user, index) => (
@@ -70,31 +68,15 @@ const Chat = () => {
         <div className="flex flex-col w-3/4 space-y-4">
           {/* Messages container */}
           <div className="flex flex-col overflow-y-auto h-[60vh] border-gray-800 p-4 rounded-lg bg-[rgba(17,17,17,0.2)] text-left text-white">
-            {/* Broadcast message */}
-            {broadcast && (
-              <div className="text-center text-yellow-300 font-semibold mb-2">
-                {broadcast}
-              </div>
+            {messages && messages.length > 0 ? (
+              messages.map((msg, index) => (
+                <p key={index} className="py-1">
+                  <strong>{msg.username}</strong>: {msg.message}
+                </p>
+              ))
+            ) : (
+              <p>Welcome to Chat Hive!</p>
             )}
-      {(messages && messages.length > 0) || (broadcast && broadcast.length > 0) ? (
-        <>
-          {messages.map((msg, index) => (
-            <p key={index} className="py-1">
-              <strong>{msg.username}</strong>: {msg.message}
-            </p>
-          ))}
-          {broadcast && Array.isArray(broadcast) && broadcast.map((msg: string, index: number) => (
-            <p
-              key={`broadcast-${index}`}
-              className="py-1 text-gray-500 italic"
-            >
-              {msg}
-            </p>
-          ))}
-        </>
-      ) : (
-        <p>Welcome to Chat Hive!</p>
-      )}
             <div ref={messagesEndRef} />
           </div>
 
