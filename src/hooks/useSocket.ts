@@ -37,6 +37,14 @@ export const useSocket = (username?: string): UseSocketReturn => {
       }
     });
 
+    newSocket.on('user joined', () => {
+      setMessages((prevMessages) => [...prevMessages, { username: username || "Anonymous", message: "has joined the chat" }]);
+    });
+
+    newSocket.on('user left', (username) => {
+      setMessages((prevMessages) => [...prevMessages, { username: username || "Anonymous", message: "has left the chat"}]);
+    })
+
     newSocket.on("user list", (userList: string[]) => {
       setUsers(userList);
     });
@@ -47,6 +55,11 @@ export const useSocket = (username?: string): UseSocketReturn => {
       setMessages((prevMessages) => [...prevMessages, msg]);
     });
     
+    //Listen for user leaving
+    newSocket.on("message", (user: string) => {
+      console.log("User left:", user);
+      setMessages((prevMessages) => [...prevMessages, { username: user, message: "has left the chat" }]);
+    });
 
     // Clean up on unmount
     return () => {
