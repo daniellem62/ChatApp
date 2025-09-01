@@ -76,15 +76,25 @@ const Chat = () => {
                 {broadcast}
               </div>
             )}
-            {messages && messages.length > 0 ? (
-              messages.map((msg, index) => (
-                <p key={index} className="py-1">
-                  <strong>{msg.username}</strong>: {msg.message}
-                </p>
-              ))
-            ) : (
-              <p>Welcome to Chat Hive!</p>
-            )}
+      {(messages && messages.length > 0) || (broadcast && broadcast.length > 0) ? (
+        <>
+          {messages.map((msg, index) => (
+            <p key={index} className="py-1">
+              <strong>{msg.username}</strong>: {msg.message}
+            </p>
+          ))}
+          {broadcast && Array.isArray(broadcast) && broadcast.map((msg: string, index: number) => (
+            <p
+              key={`broadcast-${index}`}
+              className="py-1 text-gray-500 italic"
+            >
+              {msg}
+            </p>
+          ))}
+        </>
+      ) : (
+        <p>Welcome to Chat Hive!</p>
+      )}
             <div ref={messagesEndRef} />
           </div>
 

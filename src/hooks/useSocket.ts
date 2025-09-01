@@ -12,14 +12,14 @@ interface UseSocketReturn {
   messages: ChatMessage[];
   sendMessage: (msg: ChatMessage) => void;
   users: string[];
-  broadcast: string;
+  broadcast: string[];
 }
 
 export const useSocket = (username?: string): UseSocketReturn => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [users, setUsers] = useState<string[]>([]);
-  const [broadcast, setBroadcast] = useState<string>("");
+  const [broadcast, setBroadcast] = useState<string[]>([]);
 
   useEffect(() => {
     const newSocket: Socket = io(
@@ -43,11 +43,11 @@ export const useSocket = (username?: string): UseSocketReturn => {
     });
 
     newSocket.on("user joined", (joinedUser: string) => {
-      setBroadcast(`${joinedUser} has joined the chat`);
+      setBroadcast((prev) => [...prev, `${joinedUser} has joined the chat`]);
     });
 
     newSocket.on("user left", (leftUser: string) => {
-      setBroadcast(`${leftUser} has left the chat`);
+      setBroadcast((prev) => [...prev, `${leftUser} has left the chat`]);
     });
 
     newSocket.on("user list", (userList: string[]) => {
