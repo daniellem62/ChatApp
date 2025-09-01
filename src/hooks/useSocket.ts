@@ -3,7 +3,7 @@ import { io, Socket } from "socket.io-client";
 
 // Define message interface
 interface ChatMessage {
-  username?: string;
+  username: string;
   message: string;
 }
 
@@ -12,12 +12,14 @@ interface UseSocketReturn {
   messages: ChatMessage[];
   sendMessage: (msg: ChatMessage) => void;
   users: string[];
+  broadcast: string[];
 }
 
 export const useSocket = (username?: string): UseSocketReturn => {
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [users, setUsers] = useState<string[]>([]);
+  const [broadcast, setBroadcast] = useState<string[]>([]);
 
   useEffect(() => {
     const newSocket: Socket = io(
@@ -41,19 +43,11 @@ export const useSocket = (username?: string): UseSocketReturn => {
     });
 
     newSocket.on("user joined", (joinedUser: string) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { message: `${joinedUser} has joined the chat` },
-      ]);
+      setBroadcast((prev) => [...prev, `${joinedUser} has joined the chat`]);
     });
 
     newSocket.on("user left", (leftUser: string) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          message: `${leftUser} has left the chat`,
-        },
-      ]);
+      setBroadcast((prev) => [...prev, `${leftUser} has left the chat`]);
     });
 
     newSocket.on("user list", (userList: string[]) => {
@@ -82,5 +76,5 @@ export const useSocket = (username?: string): UseSocketReturn => {
     }
   };
 
-  return { messages, sendMessage, users };
+  return { messages, sendMessage, users, broadcast };
 };
