@@ -20,12 +20,15 @@ export const useSocket = (username?: string): UseSocketReturn => {
   const [users, setUsers] = useState<string[]>([]);
 
   useEffect(() => {
-    const newSocket: Socket = io(process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || '', {
-      secure: true,
-      rejectUnauthorized: false, // For self-signed certificates
-      transports: ['websocket'], // Try forcing websocket transport
-      reconnection: true
-    });
+    const newSocket: Socket = io(
+      process.env.NEXT_PUBLIC_SOCKET_SERVER_URL || "",
+      {
+        secure: true,
+        rejectUnauthorized: false, // For self-signed certificates
+        transports: ["websocket"], // Try forcing websocket transport
+        reconnection: true,
+      }
+    );
 
     setSocket(newSocket);
 
@@ -37,13 +40,23 @@ export const useSocket = (username?: string): UseSocketReturn => {
       }
     });
 
-    newSocket.on('user joined', () => {
-      setMessages((prevMessages) => [...prevMessages, { username: username || "Anonymous", message: "has joined the chat" }]);
+    newSocket.on("user joined", () => {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { username: username || "Anonymous", message: "has joined the chat" },
+      ]);
     });
 
-    newSocket.on('user left', (username) => {
-      setMessages((prevMessages) => [...prevMessages, { username: username || "Anonymous", message: "has left the chat"}]);
-    })
+    newSocket.on("user left", (username: string) => {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          username: username || "Anonymous",
+          message: "has left the chat",
+          system: true,
+        },
+      ]);
+    });
 
     newSocket.on("user list", (userList: string[]) => {
       setUsers(userList);
@@ -53,12 +66,6 @@ export const useSocket = (username?: string): UseSocketReturn => {
     newSocket.on("chat message", (msg: ChatMessage) => {
       console.log("Received message from server:", msg);
       setMessages((prevMessages) => [...prevMessages, msg]);
-    });
-    
-    //Listen for user leaving
-    newSocket.on("message", (user: string) => {
-      console.log("User left:", user);
-      setMessages((prevMessages) => [...prevMessages, { username: user, message: "has left the chat" }]);
     });
 
     // Clean up on unmount
